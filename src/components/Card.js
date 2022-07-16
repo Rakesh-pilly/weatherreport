@@ -1,21 +1,28 @@
 import React from "react";
 
-const Card = ({ data }) => {
-  console.log(data);
-
+const Card = ({ data, select, setSelect,index }) => {
   var day = new Date(data.dt * 1000);
-
   const days = day.toLocaleString("en-us", { weekday: "long" }); // Friday
-
+  const handleClick = ()=> {
+    setSelect(index)
+  }
   return (
-    <div class="card bg-white">
-      <div class="card-body">
-      <h5 class="card-title">{days}</h5>
-      <p>Temp  {data.temp.min} C - {data.temp.max} C</p>
+    <div className="mx-3">
+      <div  role="button" className= {`card text-center border shadow  mb-5 bg-white rounded ${select && "border-danger"} `}
+      onClick = {handleClick}
+      >
+        <div className="card-body">
+          <h5 className="card-title">{days}</h5>
+          <p className = "text-truncate">
+            {data.temp.min} C - {data.temp.max} C
+          </p>
 
-        <img src = {`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} alt = "image"/>
-      <p>{data.weather[0].description}</p>
-
+          <img
+            src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
+            alt="image"
+          />
+          <p className = "text-truncate">{data.weather[0].description}</p>
+        </div>
       </div>
     </div>
   );

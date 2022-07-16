@@ -6,12 +6,22 @@ const Charts = () => {
     options: {
       chart: {
         id: "apexchart-example",
+        width: '100%',
+        toolbar: {
+          show: false
+        }
       },
       xaxis: {
-        categories: [12, 11, 10, 9, 8, 1996, 1997, 1998, 1999],
+        categories: [12, 11, 10, 9, 8, 7, 6, 5, 4],
+        show: false,
+
       },
+      yaxis: {
+        show: false
+      },
+    
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
     },
     series: [
@@ -22,14 +32,21 @@ const Charts = () => {
     ],
   });
 
+
+
+
   return (
+
+    <div className="card my-4">
     <Chart
       options={state.options}
       series={state.series}
       type="area"
-      width={500}
+    
       height={320}
     />
+
+    </div>
   );
 };
 
