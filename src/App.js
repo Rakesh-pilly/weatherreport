@@ -33,7 +33,9 @@ function App() {
     <div className="container-sm">
       <InputBox setCords={setCords} />
       <Corsoal data={data} select={select} setSelect={setSelect} />
-      <Chart hourly={hourly} />
+      
+
+      {data[select] && <Chart hourly={hourly} data={data[select]}  /> }
 
       {data[select] && (
         <DownCards dataDowncard={data[select]} select={select} />

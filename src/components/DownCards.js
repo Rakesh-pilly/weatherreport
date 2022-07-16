@@ -22,9 +22,18 @@ function DownCards({ dataDowncard }) {
           show: false,
         },
       },
+      grid: {
+        show: false,
+        padding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 25
+        },  
+      },
       colors: ["#f48037"],
       xaxis: {
-        categories: [sunriseTime, "2am", sunsetTime],
+        categories: ["5am", "2am", "7pm"],
         show: false,
       },
       yaxis: {
@@ -37,10 +46,13 @@ function DownCards({ dataDowncard }) {
     series: [
       {
         name: "series-1",
-        data: [0, 10, 0],
+        data: [ 0, 10,0 ],
       },
     ],
   });
+
+
+
 
   return (
     <div className="container-fluid ">

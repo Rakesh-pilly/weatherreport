@@ -8,7 +8,7 @@ const Card = ({ data, select, setSelect,index }) => {
   }
   return (
     <div className="mx-3">
-      <div  role="button" className= {`card text-center border shadow  mb-5 bg-white rounded ${select && "border-danger"} `}
+      <div  role="button" className= {`card text-center border shadow  mb-5  rounded ${select && "border-danger bg-light"} `}
       onClick = {handleClick}
       >
         <div className="card-body">

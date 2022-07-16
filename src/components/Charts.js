@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import Chart from "react-apexcharts";
 
-const Charts = () => {
+const Charts = ({data, hourly}) => {
   const [state, setState] = useState({
     options: {
       chart: {
-        id: "apexchart-example",
         width: '100%',
         toolbar: {
           show: false
         }
       },
       xaxis: {
-        categories: [12, 11, 10, 9, 8, 7, 6, 5, 4],
         show: false,
 
       },
@@ -27,7 +25,7 @@ const Charts = () => {
     series: [
       {
         name: "series-1",
-        data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+        data: hourly.map(i => i.temp),
       },
     ],
   });
@@ -35,9 +33,21 @@ const Charts = () => {
 
 
 
+
+
+
   return (
 
     <div className="card my-4">
+
+      <div className=" p-3 d-flex align-items-center">
+        <h1>{data.temp.max} C </h1>
+
+        <img src = {`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} alt = "image" />
+
+        </div>
+
+
     <Chart
       options={state.options}
       series={state.series}
