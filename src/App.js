@@ -5,6 +5,7 @@ import axios from "axios";
 import Corsoal from "./components/Corsoal";
 import Chart from "./components/Charts";
 import DownCards from "./components/DownCards";
+import { DominoSpinner   } from "react-spinners-kit";
 
 function App() {
   const [data, setData] = useState([]);
@@ -12,6 +13,7 @@ function App() {
   const [hourly, setHourly] = useState([]);
   const [cords, setCords] = useState([17.3753, 78.4744]);
   const [select, setSelect] = useState(0);
+  const [loading , setLoading] = useState(true);
   const getCustomersData = () => {
     axios
       .get(
@@ -21,16 +23,33 @@ function App() {
         setData(data.data.daily);
         setCurrent(data.data.current);
         setHourly(data.data.hourly);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>
+      
+      {
+        setLoading(false)
+        console.log(error) });
   };
 
   useEffect(() => {
     getCustomersData();
   }, [cords]);
 
+  if(loading){
+
+    return (
+      <div className = "vh-100 d-flex align-items-center justify-content-center">
+        <DominoSpinner    size={200} color="#686769" />
+
+        </div>
+    )
+  }
+
   return (
     <div className="container-sm">
+
+      
       <InputBox setCords={setCords} />
       <Corsoal data={data} select={select} setSelect={setSelect} />
       
