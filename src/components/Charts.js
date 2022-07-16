@@ -12,6 +12,12 @@ const Charts = ({data, hourly}) => {
       },
       xaxis: {
         show: false,
+        categories: hourly.map(i => {
+          var day = new Date(i.dt * 1000);
+          var hour = day.toLocaleString("en-us", { hour: "numeric"}); 
+
+          return hour;
+        })
 
       },
       yaxis: {
