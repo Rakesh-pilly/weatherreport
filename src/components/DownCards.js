@@ -33,7 +33,7 @@ function DownCards({ dataDowncard }) {
       },
       colors: ["#f48037"],
       xaxis: {
-        categories: ["5am", "2am", "7pm"],
+        categories: [ "5am", "2am", "7pm",],
         show: false,
       },
       yaxis: {
