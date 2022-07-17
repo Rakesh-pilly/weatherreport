@@ -13,11 +13,6 @@ const option = data.map((i) => {
 
 
 
-
-
-
-
-
 const InputBox = ({setCords, setSelectedOption, selectedOption, setSelect}) => {
 
 
