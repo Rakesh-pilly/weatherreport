@@ -59,6 +59,10 @@ function App() {
     getCustomersData();
   }, [cords]);
 
+  useEffect(()=> {
+    ipLookUp()
+  },[])
+
   if (loading) {
     return (
       <div className="vh-100 d-flex align-items-center justify-content-center">
