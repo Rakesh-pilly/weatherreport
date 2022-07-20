@@ -1,21 +1,27 @@
-import React, {useState} from "react";
+import React, {useState, useMemo} from "react";
 import Select from "react-select";
 import { data } from "../data";
 import axios from 'axios';
 
 
-const option = data.map((i) => {
-  return {
-    value: i.id,
-    label: i.name,
-  };
-});
+
+
 
 
 
 const InputBox = ({setCords, setSelectedOption, selectedOption, setSelect}) => {
 
-
+  const memoOption = useMemo(() => {
+    
+    console.log("map was created")
+    return (data.map((i) => {
+    return {
+      value: i.id,
+      label: i.name,
+    };
+  }) )
+  
+}, [])
 
   const  getCords = async  (id)=>{
 
@@ -45,10 +51,10 @@ const InputBox = ({setCords, setSelectedOption, selectedOption, setSelect}) => {
   return (
     <div className = "py-4">
       <Select
-        options={option}
+        options={memoOption}
         onChange={handleChange}
         placeholder={"Enter the city"}
-        value={option.filter(function(optio) {
+        value={memoOption.filter(function(optio) {
           return optio.value === selectedOption;
         })}
       />
