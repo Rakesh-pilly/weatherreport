@@ -7,6 +7,7 @@ import Chart from "./components/Charts";
 import DownCards from "./components/DownCards";
 import { DominoSpinner } from "react-spinners-kit";
 import { data as localData } from "./data";
+import useGeolocation from "./Hooks/useGeolocation";
 
 function App() {
   const [data, setData] = useState([]);
@@ -17,10 +18,12 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [selectedOption, setSelectedOption] = useState(null);
 
+ const {dataLoc ,loadingLoc, error} = useGeolocation();
+
+
 
   const getCustomersData = () => {
     setLoading(true);
-
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/onecall?lat=${cords[0]}&lon=${cords[1]}&exclude=minutely&appid=bb5e47c441c052ffa125b44b2f386884&units=metric`
@@ -38,32 +41,43 @@ function App() {
   };
 
   const ipLookUp = () => {
+
+    setLoading(true);
+
     axios
-      .get("http://ip-api.com/json")
+      .get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${dataLoc.latitude}&lon=${dataLoc.longitude}&limit=10&appid=bb5e47c441c052ffa125b44b2f386884`)
       .then((dataRes) => {
-        const city = dataRes.data.city;
+
+        const city = dataRes.data[0].name.toLowerCase();
+
+        console.log(city)
         let result = false;
         localData.forEach((i) => {
-          const cityname = i.name;
+          const cityname = i.name.toLowerCase();
 
           if (cityname.includes(city)) {
             result = true;
             console.log("yes found", cityname);
             setCords([i.coord.lat, i.coord.lon]);
             setSelectedOption(i.id);
+            setLoading(false);
+
           }
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err),setLoading(false) );
   };
+
+
+
+  useEffect(() => {
+    ipLookUp();
+  }, [loadingLoc]);
+
 
   useEffect(() => {
     getCustomersData();
   }, [cords]);
-
-  useEffect(() => {
-    ipLookUp();
-  }, []);
 
   if (loading) {
     return (

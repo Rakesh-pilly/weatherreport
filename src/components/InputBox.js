@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback} from "react";
+import React, { useMemo, useCallback, useRef, memo} from "react";
 import Select from "react-select";
 import { data } from "../data";
 import axios from 'axios';
@@ -11,10 +11,25 @@ import axios from 'axios';
 
 const InputBox = ({setCords, setSelectedOption, selectedOption, setSelect}) => {
 
+  const data1 = useRef(()=> {
+
+    console.log("funtion is called onced")
+    data.map((i) => {
+
+      return {
+        value: i.id,
+        label: i.name,
+      };
+    }) 
+
+  })
+  
+
   const memoOption = useMemo(() => {
-    console.log("map was created")
-    return (data.map((i) => {
-    return {
+    return (
+
+      data.map((i) => {
+   return {
       value: i.id,
       label: i.name,
     };
