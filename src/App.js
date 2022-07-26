@@ -17,8 +17,10 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [selectedOption, setSelectedOption] = useState(null);
 
+
   const getCustomersData = () => {
     setLoading(true);
+
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/onecall?lat=${cords[0]}&lon=${cords[1]}&exclude=minutely&appid=bb5e47c441c052ffa125b44b2f386884&units=metric`
@@ -53,16 +55,15 @@ function App() {
         });
       })
       .catch((err) => console.log(err));
-
   };
 
   useEffect(() => {
     getCustomersData();
   }, [cords]);
 
-  useEffect(()=> {
-    ipLookUp()
-  },[])
+  useEffect(() => {
+    ipLookUp();
+  }, []);
 
   if (loading) {
     return (

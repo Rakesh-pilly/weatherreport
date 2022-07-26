@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from "react";
+import React, { useMemo, useCallback} from "react";
 import Select from "react-select";
 import { data } from "../data";
 import axios from 'axios';
@@ -12,7 +12,6 @@ import axios from 'axios';
 const InputBox = ({setCords, setSelectedOption, selectedOption, setSelect}) => {
 
   const memoOption = useMemo(() => {
-    
     console.log("map was created")
     return (data.map((i) => {
     return {
@@ -38,12 +37,8 @@ const InputBox = ({setCords, setSelectedOption, selectedOption, setSelect}) => {
 
 
   const handleChange =  (e) => {
-
         getCords(e.value);  
         setSelectedOption(e.value);
-
-
-
   };
 
 
