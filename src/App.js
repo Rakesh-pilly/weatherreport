@@ -42,6 +42,7 @@ function App() {
 
   const ipLookUp = () => {
 
+    console.log(error)
     setLoading(true);
 
     axios
