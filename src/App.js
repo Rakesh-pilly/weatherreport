@@ -45,7 +45,7 @@ function App() {
     setLoading(true);
 
     axios
-      .get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${dataLoc.latitude}&lon=${dataLoc.longitude}&limit=10&appid=bb5e47c441c052ffa125b44b2f386884`)
+      .get(`https://api.openweathermap.org/geo/1.0/reverse?lat=${dataLoc.latitude? dataLoc.latitude : cords[0]}&lon=${dataLoc.longitude? dataLoc.longitude : cords[1]}&limit=10&appid=bb5e47c441c052ffa125b44b2f386884`)
       .then((dataRes) => {
 
         const city = dataRes.data[0].name.toLowerCase();
