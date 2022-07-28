@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import "./App.css";
-import InputBox from "./components/InputBox";
 import axios from "axios";
 import Corsoal from "./components/Corsoal";
 import Chart from "./components/Charts";
@@ -8,6 +7,11 @@ import DownCards from "./components/DownCards";
 import { DominoSpinner } from "react-spinners-kit";
 import { data as localData } from "./data";
 import useGeolocation from "./Hooks/useGeolocation";
+import SearchBox from "./components/SearchBox";
+
+
+
+
 
 function App() {
   const [data, setData] = useState([]);
@@ -17,6 +21,19 @@ function App() {
   const [select, setSelect] = useState(0);
   const [loading, setLoading] = useState(true);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [defaultVal, setDefaultVal] = useState(
+    {
+      "coord": {
+          "lat": 17.37528,
+          "lon": 78.474442
+      },
+      "country": "IN",
+      "id": 1269843,
+      "name": "Hyderabad",
+      "state": ""
+  }
+  )
 
  const {dataLoc ,loadingLoc, error} = useGeolocation();
 
@@ -42,23 +59,38 @@ function App() {
 
   const ipLookUp = () => {
 
-    console.log(error)
     setLoading(true);
 
+    let lat = dataLoc.latitude? dataLoc.latitude : cords[0];
+    let lon = dataLoc.longitude? dataLoc.longitude : cords[1];
+
     axios
-      .get(`https://api.openweathermap.org/geo/1.0/reverse?lat=${dataLoc.latitude? dataLoc.latitude : cords[0]}&lon=${dataLoc.longitude? dataLoc.longitude : cords[1]}&limit=10&appid=bb5e47c441c052ffa125b44b2f386884`)
+      .get(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=10&appid=bb5e47c441c052ffa125b44b2f386884`)
       .then((dataRes) => {
 
-        const city = dataRes.data[0].name.toLowerCase();
 
-        console.log(city)
+        const city = dataRes.data[0].name.toLowerCase();
+        setCords([lat,lon]);
+        setLoading(false);
+        setDefaultVal( {
+          "coord": {
+              "lat": lat,
+              "lon": lon
+          },
+          "country": "IN",
+          "id": 1269843,
+          "name": city? city : "Hyderabad",
+          "state": ""
+      })
+
+
+
         let result = false;
         localData.forEach((i) => {
           const cityname = i.name.toLowerCase();
 
           if (cityname.includes(city)) {
             result = true;
-            console.log("yes found", cityname);
             setCords([i.coord.lat, i.coord.lon]);
             setSelectedOption(i.id);
             setLoading(false);
@@ -90,12 +122,16 @@ function App() {
 
   return (
     <div className="container-sm">
-      <InputBox
-        setCords={setCords}
-        selectedOption={selectedOption}
-        setSelectedOption={setSelectedOption}
+     
+      <SearchBox         
+        setCords={setCords}         
         setSelect={setSelect}
-      />
+        defaultVal ={defaultVal}
+        setDefaultVal = {setDefaultVal}
+        setLoading = {setSearchLoading}
+        loading = {searchLoading}
+/>
+      
       <Corsoal data={data} select={select} setSelect={setSelect} />
 
       {data[select] && <Chart hourly={hourly} data={data[select]} />}

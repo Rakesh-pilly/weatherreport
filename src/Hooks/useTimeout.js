@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 export default function useTimeout(callback, delay) {
+
+  const [runing, setRuning] = useState(false);
   const callbackRef = useRef(callback)
   const timeoutRef = useRef()
 
@@ -9,10 +11,16 @@ export default function useTimeout(callback, delay) {
   }, [callback])
 
   const set = useCallback(() => {
-    timeoutRef.current = setTimeout(() => callbackRef.current(), delay)
+    setRuning(true);
+    timeoutRef.current = setTimeout(() => {
+      callbackRef.current()
+      setRuning(false)
+    }, delay)
   }, [delay])
 
   const clear = useCallback(() => {
+    setRuning(false);
+
     timeoutRef.current && clearTimeout(timeoutRef.current)
   }, [])
 
@@ -26,5 +34,5 @@ export default function useTimeout(callback, delay) {
     set()
   }, [clear, set])
 
-  return { reset, clear }
+  return { reset, clear, runing }
 }
