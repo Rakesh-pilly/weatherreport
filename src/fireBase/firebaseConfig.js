@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 
 
-import { getDatabase , ref, get, query, limitToFirst, startAt, orderByChild} from "firebase/database";
+import { getDatabase } from "firebase/database";
 
 
 

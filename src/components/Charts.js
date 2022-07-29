@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
 const Charts = ({data, hourly}) => {
@@ -16,7 +16,7 @@ const Charts = ({data, hourly}) => {
           var day = new Date(i.dt * 1000);
           var hour = day.toLocaleString("en-us", { hour: "numeric"}); 
 
-          return hour;
+          return hour.split(" ")[0];
         })
 
       },
@@ -36,7 +36,46 @@ const Charts = ({data, hourly}) => {
     ],
   });
 
+  
 
+ useEffect(()=> {
+  setState(prev => {
+    return {
+      options: {
+        chart: {
+          width: '100%',
+          toolbar: {
+            show: false
+          }
+        },
+        xaxis: {
+          show: false,
+          categories: hourly.map(i => {
+            var day = new Date(i.dt * 1000);
+            var hour = day.toLocaleString("en-us", { hour: "numeric"}); 
+  
+            return hour.split(" ")[0];
+          })
+  
+        },
+        yaxis: {
+          show: false
+        },
+      
+        dataLabels: {
+          enabled: false,
+        },
+      },
+      series: [
+        {
+          name: "series-1",
+          data: hourly.map(i => i.temp),
+        },
+      ],
+    }
+    
+  })
+ },[hourly])
 
 
 

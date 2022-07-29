@@ -32,7 +32,6 @@ export default function SearchBox({ setCords, setSelect , defaultVal, setDefault
 
 
   const getDAta = () => {
-    console.log("this called getDAta 1")
 
     get(recentPostsRef)
       .then((snapshot) => {
@@ -48,11 +47,9 @@ export default function SearchBox({ setCords, setSelect , defaultVal, setDefault
       });
   };
 
- const {runing}  = useDebounce(getDAta, 1000, [text]);
+ const {runing}  = useDebounce(getDAta, 1200, [text]);
 
-React.useEffect(()=> {
-    console.log("the call back is runing", runing)
-},[runing])
+
 
   const handleCords = (value,event) => {
 
